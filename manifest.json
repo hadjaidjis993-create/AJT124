@@ -1,0 +1,14 @@
+{
+  "name": "البعثة السرية AJT124",
+  "short_name": "البعثة السرية",
+  "description": "ملف البعثة السرية لدوري النخبة",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#ffffff",
+  "theme_color": "#10264a",
+  "icons": []
+}
