@@ -20,7 +20,7 @@ public class MainActivity extends Activity {
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setDomStorageEnabled(true);
         webView.getSettings().setAllowFileAccess(true);
-        webView.getSettings().setAllowContentAccess(true);
+        webView.getSettings().setAllowContentAccess(false);
         webView.setWebViewClient(new WebViewClient());
         webView.setWebChromeClient(new WebChromeClient());
         setContentView(webView);
