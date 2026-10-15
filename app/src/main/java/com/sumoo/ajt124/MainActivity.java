@@ -1,11 +1,11 @@
 package com.sumoo.ajt124;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Build;
 import android.webkit.WebResourceRequest;
 import android.os.Bundle;
 import android.view.ViewGroup;
-import android.webkit.SafeBrowsingResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -14,6 +14,7 @@ public class MainActivity extends Activity {
     private WebView webView;
 
     @Override
+    @SuppressLint("SetJavaScriptEnabled") // Required by the bundled game; navigation is restricted to local assets below.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -25,6 +26,7 @@ public class MainActivity extends Activity {
                 ViewGroup.LayoutParams.MATCH_PARENT));
 
         WebSettings settings = webView.getSettings();
+        // JavaScript is required for the bundled game. Do not load remote content in this WebView.
         settings.setJavaScriptEnabled(true);
         settings.setDomStorageEnabled(true);
 
