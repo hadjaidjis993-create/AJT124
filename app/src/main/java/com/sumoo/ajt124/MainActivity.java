@@ -2,6 +2,7 @@ package com.sumoo.ajt124;
 
 import android.app.Activity;
 import android.os.Build;
+import android.webkit.WebResourceRequest;
 import android.os.Bundle;
 import android.view.ViewGroup;
 import android.webkit.SafeBrowsingResponse;
@@ -38,7 +39,21 @@ public class MainActivity extends Activity {
             settings.setSafeBrowsingEnabled(true);
         }
 
-        webView.setWebViewClient(new WebViewClient());
+        webView.setWebViewClient(new WebViewClient() {
+            private boolean isAllowedLocalAssetUrl(String url) {
+                return url != null && url.startsWith("file:///android_asset/");
+            }
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                return !isAllowedLocalAssetUrl(request.getUrl().toString());
+            }
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                return !isAllowedLocalAssetUrl(url);
+            }
+        });
         setContentView(webView);
 
         if (savedInstanceState == null) {
