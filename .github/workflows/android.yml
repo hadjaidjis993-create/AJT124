@@ -1,4 +1,5 @@
 name: Build AJT124 Android APK
+# Verify Android Lint and debug APK build on updates.
 
 on:
   workflow_dispatch:
