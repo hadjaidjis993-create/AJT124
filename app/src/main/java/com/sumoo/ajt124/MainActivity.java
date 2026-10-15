@@ -1,11 +1,13 @@
 package com.sumoo.ajt124;
 
 import android.app.Activity;
+import android.os.Build;
 import android.os.Bundle;
-import android.webkit.WebChromeClient;
+import android.view.ViewGroup;
+import android.webkit.SafeBrowsingResponse;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.view.ViewGroup;
 
 public class MainActivity extends Activity {
     private WebView webView;
@@ -13,21 +15,39 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        WebView.setWebContentsDebuggingEnabled(false);
+
         webView = new WebView(this);
         webView.setLayoutParams(new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.getSettings().setDomStorageEnabled(true);
-        webView.getSettings().setAllowFileAccess(true);
-        webView.getSettings().setAllowContentAccess(false);
+
+        WebSettings settings = webView.getSettings();
+        settings.setJavaScriptEnabled(true);
+        settings.setDomStorageEnabled(true);
+
+        // The game is bundled locally. Keep access limited to its own asset files.
+        settings.setAllowFileAccess(true);
+        settings.setAllowContentAccess(false);
+        settings.setAllowFileAccessFromFileURLs(false);
+        settings.setAllowUniversalAccessFromFileURLs(false);
+        settings.setMixedContentMode(WebSettings.MIXED_CONTENT_NEVER_ALLOW);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            settings.setSafeBrowsingEnabled(true);
+        }
+
         webView.setWebViewClient(new WebViewClient());
-        webView.setWebChromeClient(new WebChromeClient());
         setContentView(webView);
+
         if (savedInstanceState == null) {
             webView.loadUrl("file:///android_asset/index.html");
         } else {
             webView.restoreState(savedInstanceState);
+            if (webView.getUrl() == null) {
+                webView.loadUrl("file:///android_asset/index.html");
+            }
         }
     }
 
@@ -39,13 +59,17 @@ public class MainActivity extends Activity {
 
     @Override
     public void onBackPressed() {
-        if (webView != null && webView.canGoBack()) webView.goBack();
-        else super.onBackPressed();
+        if (webView != null && webView.canGoBack()) {
+            webView.goBack();
+        } else {
+            super.onBackPressed();
+        }
     }
 
     @Override
     protected void onDestroy() {
         if (webView != null) {
+            webView.stopLoading();
             webView.destroy();
             webView = null;
         }
