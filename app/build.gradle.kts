@@ -14,3 +14,5 @@ android {
         versionName = "1.2"
     }
 }
+
+// Keep compileSdk and targetSdk aligned with Android 16 (API 36); verify via lintDebug in CI.
