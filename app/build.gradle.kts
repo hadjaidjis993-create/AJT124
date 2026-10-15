@@ -4,13 +4,13 @@ plugins {
 
 android {
     namespace = "com.sumoo.ajt124"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.sumoo.ajt124"
         minSdk = 23
-        targetSdk = 35
-        versionCode = 2
-        versionName = "1.1"
+        targetSdk = 36
+        versionCode = 3
+        versionName = "1.2"
     }
 }
